@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>Django实现文件上传下载（一） | foolself blog | null</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#4CAF50">
+    
+    
+    <meta name="keywords" content="python,django">
+    <meta name="description" content="最近在捣鼓 Django 文件上传和下载，过程还好，挺简单，但其中遇到好多问题，折腾好久。把自己实现的方法分享下。
+好，先来说上传吧。
+参考 Django 官方文档：https://docs.djangoproject.com/en/1.7/topics/http/file-uploads/由于之后还要考虑下载的问题，那我们就多做一步，将文件记录在数据库。
+model那么，首先写一个用于记录上传文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django实现文件上传下载（一）">
+<meta property="og:url" content="https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/index.html">
+<meta property="og:site_name" content="foolself blog">
+<meta property="og:description" content="最近在捣鼓 Django 文件上传和下载，过程还好，挺简单，但其中遇到好多问题，折腾好久。把自己实现的方法分享下。
+好，先来说上传吧。
+参考 Django 官方文档：https://docs.djangoproject.com/en/1.7/topics/http/file-uploads/由于之后还要考虑下载的问题，那我们就多做一步，将文件记录在数据库。
+model那么，首先写一个用于记录上传文">
+<meta property="og:updated_time" content="2017-03-28T08:32:08.794Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django实现文件上传下载（一）">
+<meta name="twitter:description" content="最近在捣鼓 Django 文件上传和下载，过程还好，挺简单，但其中遇到好多问题，折腾好久。把自己实现的方法分享下。
+好，先来说上传吧。
+参考 Django 官方文档：https://docs.djangoproject.com/en/1.7/topics/http/file-uploads/由于之后还要考虑下载的问题，那我们就多做一步，将文件记录在数据库。
+model那么，首先写一个用于记录上传文">
+    
+        <link rel="alternative" href="/atom.xml" title="foolself blog" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.14">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">foolself</h5>
+          <a href="mailto:foolselfgm@gmail.com" title="foolselfgm@gmail.com" class="mail">foolselfgm@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/foolself" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://weibo.com/522878950" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.zhihu.com/people/foolself/activities" target="_blank" >
+                <i class="icon icon-lg icon-hand-o-right"></i>
+                zhihu
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">Django实现文件上传下载（一）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">Django实现文件上传下载（一）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2015-10-23T06:23:33.000Z" itemprop="datePublished" class="page-time">
+  2015-10-23
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#model"><span class="post-toc-number">1.</span> <span class="post-toc-text">model</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#路由配置"><span class="post-toc-number">2.</span> <span class="post-toc-text">路由配置</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#后台逻辑"><span class="post-toc-number">3.</span> <span class="post-toc-text">后台逻辑</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-Django实现文件上传下载（一）"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">Django实现文件上传下载（一）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2015年10月23日 14:23" datetime="2015-10-23T06:23:33.000Z"  itemprop="datePublished">2015-10-23</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <p>最近在捣鼓 Django 文件上传和下载，过程还好，挺简单，但其中遇到好多问题，折腾好久。把自己实现的方法分享下。</p>
+<p>好，先来说上传吧。</p>
+<p>参考 Django 官方文档：<a href="https://docs.djangoproject.com/en/1.7/topics/http/file-uploads/" target="_blank" rel="external">https://docs.djangoproject.com/en/1.7/topics/http/file-uploads/</a><br>由于之后还要考虑下载的问题，那我们就多做一步，将文件记录在数据库。</p>
+<h3 id="model"><a href="#model" class="headerlink" title="model"></a>model</h3><p>那么，首先写一个用于记录上传文件的 model ：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UploadFile</span><span class="params">(models.Model)</span>:</span></div><div class="line">    name = models.CharField(max_length=<span class="number">50</span>)</div><div class="line">    file = models.FileField(upload_to = <span class="string">"uploads/%Y/%m"</span>)</div></pre></td></tr></table></figure></p>
+<p>其中包含一个 CharField 字段，用于存放上传文件名，还有一个 FileField 字段，用来存放 文件本身（其实是文件的路径）。upload_to 参数是用来设置上传文件的保存路径，此处是按上传日期的年月来归档。</p>
+<h3 id="路由配置"><a href="#路由配置" class="headerlink" title="路由配置"></a>路由配置</h3><p>配置 settings 文件，添加如下两行：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MEDIA_URL = <span class="string">'/media/'</span></div><div class="line">MEDIA_ROOT = os.path.join(BASE_DIR, <span class="string">'media'</span>)</div></pre></td></tr></table></figure></p>
+<p>如此，文件将上传到 根目录下的 media/uploads/… 下。</p>
+<p>接下来写 html 模板 index.html ：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">&#123;% for file in file_list %&#125;</div><div class="line"><span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span>&gt;</span>&#123;&#123; file.name &#125;&#125;<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">&#123;% endfor %&#125;</div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">action</span>=<span class="string">"&#123;% url 'uploads' %&#125;"</span>&gt;</span> &#123;% csrf_token %&#125;</div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"file"</span> /&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">br</span> /&gt;</span> </div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"上传文件"</span> /&gt;</span> </div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>配置 URL，urls.py 中添加：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">url(<span class="string">r'^$'</span>,index),</div><div class="line">url(<span class="string">r'^uploads'</span>, uploads, name =<span class="string">"uploads"</span>)</div></pre></td></tr></table></figure></p>
+<h3 id="后台逻辑"><a href="#后台逻辑" class="headerlink" title="后台逻辑"></a>后台逻辑</h3><p>接着重点来了，去写具体的方法，views.py ：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></div><div class="line">   file_list = UploadFile.objects.all()</div><div class="line">   <span class="keyword">return</span> render(request, <span class="string">"index.html"</span>, &#123;<span class="string">"file_list"</span> : file_list&#125;)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">handle_uploaded_file</span><span class="params">(f, path)</span>:</span></div><div class="line"><span class="comment">#从路径中提取出 文件名 和 文件所在文件夹路径</span></div><div class="line">   t = path.split(<span class="string">"/"</span>)</div><div class="line">   file_name = t[<span class="number">-1</span>]</div><div class="line">   extensions = file_name.split(<span class="string">"."</span>)[<span class="number">1</span>]</div><div class="line">   t.remove(t[<span class="number">-1</span>])</div><div class="line">   t.remove(t[<span class="number">0</span>])</div><div class="line">   path = <span class="string">"/"</span>.join(t)</div><div class="line">   <span class="keyword">try</span>:</div><div class="line">      <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(path):</div><div class="line">         os.makedirs(path)</div><div class="line">      file_name = path + <span class="string">"/"</span> + file_name +<span class="string">"."</span> + extensions</div><div class="line">      <span class="keyword">print</span> file_name</div><div class="line">      destination = open(file_name, <span class="string">'wb+'</span>)</div><div class="line">      <span class="keyword">for</span> chunk <span class="keyword">in</span> f.chunks():</div><div class="line">         destination.write(chunk)</div><div class="line">         destination.close()</div><div class="line">   <span class="keyword">except</span> Exception, e:</div><div class="line">      <span class="keyword">print</span> e</div><div class="line">   <span class="keyword">return</span> file_name</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">uploads</span><span class="params">(request)</span>:</span></div><div class="line">   <span class="keyword">if</span> request.method == <span class="string">'POST'</span>:</div><div class="line">      form = UploadFileForm(request.POST, request.FILES)</div><div class="line">      <span class="keyword">if</span> form.is_valid():</div><div class="line">         upload_file = UploadFile.objects.create(name = request.FILES[<span class="string">'file'</span>].name, file = request.FILES[<span class="string">'file'</span>]) <span class="comment">#写入数据库</span></div><div class="line">         path = upload_file.file.url</div><div class="line">         handle_uploaded_file(request.FILES[<span class="string">'file'</span>], path) <span class="comment">#上传处理</span></div><div class="line">         upload_file.save() <span class="comment">#保存</span></div><div class="line">         <span class="keyword">return</span> redirect(<span class="string">"blog.views.index"</span>) <span class="comment">#blog 是 app 名称</span></div><div class="line">   <span class="keyword">else</span>:</div><div class="line">      form = UploadFileForm()</div><div class="line">   <span class="keyword">return</span> render(request, <span class="string">'index.html'</span>, &#123;<span class="string">'form'</span>: form&#125;)</div></pre></td></tr></table></figure></p>
+<p>到这按说已经可以了，但，在之后的下载中出了问题，是因为文件名的问题，如果文件名是中文的，在传递的过程中编码的问题就不得不考虑，而且很是烦人，所以在这，我们要避过使用中文文件名的问题。好，查一查，Django 上传文件重命名的问题。</p>
+<p>方法来自这：<a href="http://blog.163.com/zhulp0372@yeah/blog/static/11589447920122913342858/" target="_blank" rel="external">link</a>.</p>
+<p>赶紧实践一下。</p>
+<p>首先修改settings.py的配置，通过查看源文件，可以看到DEFAULT_FILE_STORAGE默认指向的是FileStorage，我们可以修改指向，然后重写save方法。</p>
+<p>settings 文件中添加：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">DEFAULT_FILE_STORAGE = <span class="string">"mysite.customfilefield.storage.FileStorage"</span></div></pre></td></tr></table></figure></p>
+<p>mysite 是工程名，在工程文件夹下新建文件夹 customfilefield ，将下面的 storage.py 文件放在它的下面：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">coding:utf<span class="number">-8</span> -*-</div><div class="line"><span class="keyword">from</span> django.core.files.storage <span class="keyword">import</span> FileSystemStorage</div><div class="line"><span class="keyword">from</span> django.conf <span class="keyword">import</span> settings</div><div class="line"><span class="keyword">import</span> os, time</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileStorage</span><span class="params">(FileSystemStorage)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, location=settings.MEDIA_ROOT, base_url=settings.MEDIA_URL)</span>:</span></div><div class="line">        <span class="comment">#初始化</span></div><div class="line">        super(FileStorage, self).__init__(location, base_url)</div><div class="line"></div><div class="line">    <span class="comment">#重写 _save方法</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">_save</span><span class="params">(self, name, content)</span>:</span></div><div class="line">        <span class="comment">#文件扩展名</span></div><div class="line">        ext = os.path.splitext(name)[<span class="number">1</span>]</div><div class="line">        <span class="comment">#文件目录</span></div><div class="line">        d = os.path.dirname(name)</div><div class="line">        <span class="comment">#定义文件名，以上传时间命名，像这样的一串数字144557245952</span></div><div class="line">        fn = str(time.time())</div><div class="line">        fn = (<span class="string">""</span>).join(fn.split(<span class="string">"."</span>))</div><div class="line">        <span class="comment">#重写合成文件名</span></div><div class="line">        name = os.path.join(d, fn + ext)</div><div class="line">        <span class="comment">#调用父类方法</span></div><div class="line">        <span class="keyword">return</span> super(FileStorage, self)._save(name, content)</div></pre></td></tr></table></figure></p>
+<p>好了，这样上传的文件的名字就会以上传的时间来命名了。<br>上传就到这里了。</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-03-28T08:32:08.794Z" itemprop="dateUpdated">2017年3月28日 16:32</time>
+</span><br>
+
+
+        转载请注明：<a href="foolself.github.io" target="_blank" rel="external">https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/</a>
+    </div>
+    <footer>
+        <a href="https://foolself.github.io">
+            <img src="/img/avatar.jpg" alt="foolself">
+            foolself
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/">django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/&title=《Django实现文件上传下载（一）》 — foolself blog&pic=https://foolself.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/&title=《Django实现文件上传下载（一）》 — foolself blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Django实现文件上传下载（一）》 — foolself blog&url=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/&via=https://foolself.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2015/11/19/Java-快排算法的实现/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">Java-快排算法的实现</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2015/10/23/Django实现文件上传下载（二）/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">Django实现文件上传下载（二）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        Thank you for you support~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>foolself blog &copy; 2015 - 2017</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/&title=《Django实现文件上传下载（一）》 — foolself blog&pic=https://foolself.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/&title=《Django实现文件上传下载（一）》 — foolself blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Django实现文件上传下载（一）》 — foolself blog&url=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/&via=https://foolself.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://foolself.github.io/2015/10/23/Django实现文件上传下载（一）/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.4.14"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.4.14" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '努力加载呢ㄟ(≧◇≦)ㄏ';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>

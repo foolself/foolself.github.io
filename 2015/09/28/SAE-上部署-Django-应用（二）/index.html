@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>SAE-上部署-Django-应用（二） | foolself blog | null</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#4CAF50">
+    
+    
+    <meta name="keywords" content="python,django">
+    <meta name="description" content="部署checkout现在 checkout 到本地 SAE 上的代码
+新建一个文件夹，随便你方便的地方，我的叫 myapp，和我应用的名称一样
+
+                
+                    
+                    
+                
+                
+            
+右击选择 SVN Checkout…
+好，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SAE-上部署-Django-应用（二）">
+<meta property="og:url" content="https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/index.html">
+<meta property="og:site_name" content="foolself blog">
+<meta property="og:description" content="部署checkout现在 checkout 到本地 SAE 上的代码
+新建一个文件夹，随便你方便的地方，我的叫 myapp，和我应用的名称一样
+
+                
+                    
+                    
+                
+                
+            
+右击选择 SVN Checkout…
+好，">
+<meta property="og:image" content="http://7xixqn.com1.z0.glb.clouddn.com/1-1.jpg">
+<meta property="og:image" content="http://7xixqn.com1.z0.glb.clouddn.com/1-8.jpg">
+<meta property="og:updated_time" content="2017-03-28T08:33:33.496Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SAE-上部署-Django-应用（二）">
+<meta name="twitter:description" content="部署checkout现在 checkout 到本地 SAE 上的代码
+新建一个文件夹，随便你方便的地方，我的叫 myapp，和我应用的名称一样
+
+                
+                    
+                    
+                
+                
+            
+右击选择 SVN Checkout…
+好，">
+<meta name="twitter:image" content="http://7xixqn.com1.z0.glb.clouddn.com/1-1.jpg">
+    
+        <link rel="alternative" href="/atom.xml" title="foolself blog" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.14">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">foolself</h5>
+          <a href="mailto:foolselfgm@gmail.com" title="foolselfgm@gmail.com" class="mail">foolselfgm@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/foolself" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://weibo.com/522878950" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.zhihu.com/people/foolself/activities" target="_blank" >
+                <i class="icon icon-lg icon-hand-o-right"></i>
+                zhihu
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">SAE-上部署-Django-应用（二）</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">SAE-上部署-Django-应用（二）</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2015-09-28T06:24:26.000Z" itemprop="datePublished" class="page-time">
+  2015-09-28
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#部署"><span class="post-toc-number">1.</span> <span class="post-toc-text">部署</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#checkout"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">checkout</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#创建工程"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">创建工程</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#修改配置文件"><span class="post-toc-number">1.3.</span> <span class="post-toc-text">修改配置文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#commit"><span class="post-toc-number">1.4.</span> <span class="post-toc-text">commit</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-SAE-上部署-Django-应用（二）"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">SAE-上部署-Django-应用（二）</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2015年09月28日 14:24" datetime="2015-09-28T06:24:26.000Z"  itemprop="datePublished">2015-09-28</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><h3 id="checkout"><a href="#checkout" class="headerlink" title="checkout"></a>checkout</h3><p>现在 checkout 到本地 SAE 上的代码</p>
+<p>新建一个文件夹，随便你方便的地方，我的叫 myapp，和我应用的名称一样</p>
+<figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://7xixqn.com1.z0.glb.clouddn.com/1-1.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure>
+<p>右击选择 SVN Checkout…</p>
+<p>好，这样就将代码 checkout 到本地了，接下来你看到的文件树应该是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">--myapp</div><div class="line">   |--.svn\</div><div class="line">   |--1\</div><div class="line">       |--config.yaml </div><div class="line">       |--index.wsgi</div></pre></td></tr></table></figure></p>
+<h3 id="创建工程"><a href="#创建工程" class="headerlink" title="创建工程"></a>创建工程</h3><p>正式开始自己的代码，像往常一样创建 django project<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">django-admin startproject myapp #myapp就是你的 SAE 上应用名称</div></pre></td></tr></table></figure></p>
+<p>接下来，你要把 project 中的文件放到文件夹 1\ 中，像这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">--myapp</div><div class="line">   |--.svn\</div><div class="line">   |--1\</div><div class="line">       |--config.yaml</div><div class="line">       |--index.wsgi </div><div class="line">       |--manage.py</div><div class="line">       |--myapp\</div><div class="line">           |--__init__.py</div><div class="line">           |--settings.py</div><div class="line">           |--urls.py</div><div class="line">           |--wsgi.py</div></pre></td></tr></table></figure></p>
+<h3 id="修改配置文件"><a href="#修改配置文件" class="headerlink" title="修改配置文件"></a>修改配置文件</h3><p>修改 <code>config.yaml</code>、<code>index.wsgi</code> 文件修改 <code>config.yaml</code>、<code>index.wsgi</code> 文件如下：</p>
+<p>–config.yaml:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">name: foolself</div><div class="line">version: 1</div><div class="line"></div><div class="line">libraries:</div><div class="line">- name:&quot;django&quot;</div><div class="line">  version:&quot;1.8.4&quot;</div><div class="line">handlers:</div><div class="line">- url: /static</div><div class="line">  static_dir: static</div></pre></td></tr></table></figure></p>
+<p>–index.wsgi:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> sae</div><div class="line"><span class="keyword">from</span> foolself <span class="keyword">import</span> wsgi</div><div class="line"></div><div class="line">application = sae.create_wsgi_app(wsgi.application)</div></pre></td></tr></table></figure></p>
+<p>接着修改 myapp 文件夹下的 wsgi.py 文件如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line"><span class="keyword">import</span> sys</div><div class="line">root = os.path.dirname(__file__)</div><div class="line">sys.path.insert(<span class="number">0</span>, os.path.join(root, <span class="string">'..'</span>, <span class="string">'site-packages'</span>))</div><div class="line">os.environ.setdefault(<span class="string">"DJANGO_SETTINGS_MODULE"</span>, <span class="string">"myapp.settings"</span>)</div><div class="line"></div><div class="line"><span class="keyword">from</span> django.core.wsgi <span class="keyword">import</span> get_wsgi_application</div><div class="line">application = get_wsgi_application()</div></pre></td></tr></table></figure></p>
+<p>修改 myapp 文件下 setting.py 文件，添加下面内容:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> os</div><div class="line">BASE_DIR = os.path.dirname(os.path.dirname(__file__))</div><div class="line"><span class="comment">#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> os.path</div><div class="line"><span class="keyword">from</span> os <span class="keyword">import</span> environ</div><div class="line">debug = <span class="keyword">not</span> environ.get(<span class="string">"APP_NAME"</span>, <span class="string">""</span>) </div><div class="line"><span class="keyword">if</span> debug:</div><div class="line"><span class="comment">#LOCAL 本地调试用，便于导出数据库,根据本地MYSQL数据库填写下面参数&lt;----------------如果文件中出现中文，一定要在开始添加 #coding:utf-8</span></div><div class="line">    MYSQL_DB = <span class="string">'foolself'</span> </div><div class="line">    MYSQL_USER = <span class="string">'root'</span> </div><div class="line">    MYSQL_PASS = <span class="string">'1234'</span> </div><div class="line">    MYSQL_HOST_M = <span class="string">''</span> </div><div class="line">    MYSQL_HOST_S = <span class="string">''</span> </div><div class="line">    MYSQL_PORT = <span class="string">''</span> </div><div class="line"><span class="keyword">else</span>: </div><div class="line"><span class="comment">#SAE </span></div><div class="line">    <span class="keyword">import</span> sae.const </div><div class="line">    MYSQL_DB = sae.const.MYSQL_DB </div><div class="line">    MYSQL_USER = sae.const.MYSQL_USER </div><div class="line">    MYSQL_PASS = sae.const.MYSQL_PASS</div><div class="line">    MYSQL_HOST_M = sae.const.MYSQL_HOST </div><div class="line">    MYSQL_HOST_S = sae.const.MYSQL_HOST_S </div><div class="line">    MYSQL_PORT = sae.const.MYSQL_PORT</div></pre></td></tr></table></figure></p>
+<p>要用MySQL数据库，修改 DATABASES 部分如下:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">DATABASES = &#123;</div><div class="line"> <span class="string">'default'</span>: &#123;</div><div class="line"> <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>, </div><div class="line"> <span class="string">'NAME'</span>: MYSQL_DB, </div><div class="line"> <span class="string">'USER'</span>: MYSQL_USER, </div><div class="line"> <span class="string">'PASSWORD'</span>: MYSQL_PASS, </div><div class="line"> <span class="string">'HOST'</span>: MYSQL_HOST_M, </div><div class="line"> <span class="string">'PORT'</span>: MYSQL_PORT, </div><div class="line"> &#125;</div></pre></td></tr></table></figure></p>
+<p>呵，这样整个配置就完成了，够费劲的。</p>
+<p>好，现在把更高版本的 django 传到自己的应用中</p>
+<p>在文件夹 <code>1/</code> 下创建文件夹 <code>site-packages/</code>，将自己本地的 django 库复制到新建的文件夹下</p>
+<p>像这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">--1\</div><div class="line">   |--site-packages\</div><div class="line">       |--django\</div><div class="line">           |--..</div></pre></td></tr></table></figure></p>
+<h3 id="commit"><a href="#commit" class="headerlink" title="commit"></a>commit</h3><p>最后，右击，选择svn commit，选择 ALL，OK，这样就将刚才添加、修改的代码同步到SAE上了</p>
+<p>好，至此，你的 django 应用就部署完毕了，打开自己的网址 myapp.sinaapp.com\</p>
+<p>你应该看到这个熟悉的网页了：<br><figure class="image-bubble">
+                <div class="img-lightbox">
+                    <div class="overlay"></div>
+                    <img src="http://7xixqn.com1.z0.glb.clouddn.com/1-8.jpg" alt="" title="">
+                </div>
+                <div class="image-caption"></div>
+            </figure><br>第一次在互联网上访问自己的网站还有点小激动呢 ↖(^ω^)↗</p>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-03-28T08:33:33.496Z" itemprop="dateUpdated">2017年3月28日 16:33</time>
+</span><br>
+
+
+        转载请注明：<a href="foolself.github.io" target="_blank" rel="external">https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/</a>
+    </div>
+    <footer>
+        <a href="https://foolself.github.io">
+            <img src="/img/avatar.jpg" alt="foolself">
+            foolself
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/">django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/">python</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/&title=《SAE-上部署-Django-应用（二）》 — foolself blog&pic=https://foolself.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/&title=《SAE-上部署-Django-应用（二）》 — foolself blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SAE-上部署-Django-应用（二）》 — foolself blog&url=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/&via=https://foolself.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between">
+  
+    <div class="waves-block waves-effect prev">
+      <a href="/2015/09/28/SAE-上部署-Django-应用（三）/" id="post-prev" class="post-nav-link">
+        <div class="tips"><i class="icon icon-angle-left icon-lg icon-pr"></i> Prev</div>
+        <h4 class="title">SAE-上部署-Django-应用（三）</h4>
+      </a>
+    </div>
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2015/09/28/SAE-上部署-Django-应用（一）/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">SAE-上部署-Django-应用（一）</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        Thank you for you support~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>foolself blog &copy; 2015 - 2017</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/&title=《SAE-上部署-Django-应用（二）》 — foolself blog&pic=https://foolself.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/&title=《SAE-上部署-Django-应用（二）》 — foolself blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SAE-上部署-Django-应用（二）》 — foolself blog&url=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/&via=https://foolself.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://foolself.github.io/2015/09/28/SAE-上部署-Django-应用（二）/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.4.14"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.4.14" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '努力加载呢ㄟ(≧◇≦)ㄏ';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
