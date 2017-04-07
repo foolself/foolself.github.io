@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+
+    
+
+    
+
+
+
+    <meta charset="utf-8">
+    
+    
+    
+    <title>OpenSSL-RSA-实验 | foolself blog | null</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#4CAF50">
+    
+    
+    <meta name="keywords" content="openssl,RSA,C++">
+    <meta name="description" content="安装 OpenSSL官网：https://www.openssl.org/在 ubuntu 下，本身应该是已经装了 OpenSSL（也或许什么时候装别的东西时依赖安装的？），如果仅仅是使用 OpenSSL 进行平时的加解密，是够了终端输入命令是可以运行的：12~$ opensslOpenSSL&amp;gt;
+但如果要想使用 OpenSSL 自己写些什么东西，则需要安转 OpenSSL 库函数，当然安装起">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenSSL-RSA-实验">
+<meta property="og:url" content="https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/index.html">
+<meta property="og:site_name" content="foolself blog">
+<meta property="og:description" content="安装 OpenSSL官网：https://www.openssl.org/在 ubuntu 下，本身应该是已经装了 OpenSSL（也或许什么时候装别的东西时依赖安装的？），如果仅仅是使用 OpenSSL 进行平时的加解密，是够了终端输入命令是可以运行的：12~$ opensslOpenSSL&amp;gt;
+但如果要想使用 OpenSSL 自己写些什么东西，则需要安转 OpenSSL 库函数，当然安装起">
+<meta property="og:updated_time" content="2017-04-07T08:41:11.945Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenSSL-RSA-实验">
+<meta name="twitter:description" content="安装 OpenSSL官网：https://www.openssl.org/在 ubuntu 下，本身应该是已经装了 OpenSSL（也或许什么时候装别的东西时依赖安装的？），如果仅仅是使用 OpenSSL 进行平时的加解密，是够了终端输入命令是可以运行的：12~$ opensslOpenSSL&amp;gt;
+但如果要想使用 OpenSSL 自己写些什么东西，则需要安转 OpenSSL 库函数，当然安装起">
+    
+        <link rel="alternative" href="/atom.xml" title="foolself blog" type="application/atom+xml">
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/css/style.css?v=1.4.14">
+    <script>window.lazyScripts=[]</script>
+</head>
+
+<body>
+    <div id="loading" class="active"></div>
+
+    <aside id="menu" class="hide" >
+  <div class="inner flex-row-vertical">
+    <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menu-off">
+        <i class="icon icon-lg icon-close"></i>
+    </a>
+    <div class="brand-wrap">
+      <div class="brand">
+        <a href="/" class="avatar waves-effect waves-circle waves-light">
+          <img src="/img/avatar.jpg">
+        </a>
+        <hgroup class="introduce">
+          <h5 class="nickname">foolself</h5>
+          <a href="mailto:foolselfgm@gmail.com" title="foolselfgm@gmail.com" class="mail">foolselfgm@gmail.com</a>
+        </hgroup>
+      </div>
+    </div>
+    <div class="scroll-wrap flex-col">
+      <ul class="nav">
+        
+            <li class="waves-block waves-effect">
+              <a href="/"  >
+                <i class="icon icon-lg icon-home"></i>
+                主页
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/archives"  >
+                <i class="icon icon-lg icon-archives"></i>
+                Archives
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/tags"  >
+                <i class="icon icon-lg icon-tags"></i>
+                Tags
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="/categories"  >
+                <i class="icon icon-lg icon-th-list"></i>
+                Categories
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://github.com/foolself" target="_blank" >
+                <i class="icon icon-lg icon-github"></i>
+                Github
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="http://weibo.com/522878950" target="_blank" >
+                <i class="icon icon-lg icon-weibo"></i>
+                Weibo
+              </a>
+            </li>
+        
+            <li class="waves-block waves-effect">
+              <a href="https://www.zhihu.com/people/foolself/activities" target="_blank" >
+                <i class="icon icon-lg icon-hand-o-right"></i>
+                zhihu
+              </a>
+            </li>
+        
+      </ul>
+    </div>
+  </div>
+</aside>
+
+    <main id="main">
+        <header class="top-header" id="header">
+    <div class="flex-row">
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light on" id="menu-toggle">
+          <i class="icon icon-lg icon-navicon"></i>
+        </a>
+        <div class="flex-col header-title ellipsis">OpenSSL-RSA-实验</div>
+        
+        <div class="search-wrap" id="search-wrap">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+                <i class="icon icon-lg icon-chevron-left"></i>
+            </a>
+            <input type="text" id="key" class="search-input" autocomplete="off" placeholder="输入感兴趣的关键字">
+            <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="search">
+                <i class="icon icon-lg icon-search"></i>
+            </a>
+        </div>
+        
+        
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="menuShare">
+            <i class="icon icon-lg icon-share-alt"></i>
+        </a>
+        
+    </div>
+</header>
+<header class="content-header post-header">
+
+    <div class="container fade-scale">
+        <h1 class="title">OpenSSL-RSA-实验</h1>
+        <h5 class="subtitle">
+            
+                <time datetime="2017-04-01T04:59:32.000Z" itemprop="datePublished" class="page-time">
+  2017-04-01
+</time>
+
+
+            
+        </h5>
+    </div>
+
+    
+
+</header>
+
+
+<div class="container body-wrap">
+    
+    <aside class="post-widget">
+        <nav class="post-toc-wrap" id="post-toc">
+            <h4>TOC</h4>
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#安装-OpenSSL"><span class="post-toc-number">1.</span> <span class="post-toc-text">安装 OpenSSL</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#生成密钥"><span class="post-toc-number">2.</span> <span class="post-toc-text">生成密钥</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#生成一对密钥"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">生成一对密钥</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#提取公钥"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">提取公钥</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#加解密"><span class="post-toc-number">3.</span> <span class="post-toc-text">加解密</span></a></li></ol>
+        </nav>
+    </aside>
+    
+<article id="post-OpenSSL-RSA-实验"
+  class="post-article article-type-post fade" itemprop="blogPost">
+
+    <div class="post-card">
+        <h1 class="post-card-title">OpenSSL-RSA-实验</h1>
+        <div class="post-meta">
+            <time class="post-time" title="2017年04月01日 12:59" datetime="2017-04-01T04:59:32.000Z"  itemprop="datePublished">2017-04-01</time>
+
+            
+
+
+            
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+            
+
+        </div>
+        <div class="post-content" id="post-content" itemprop="postContent">
+            <h2 id="安装-OpenSSL"><a href="#安装-OpenSSL" class="headerlink" title="安装 OpenSSL"></a>安装 OpenSSL</h2><p>官网：<a href="https://www.openssl.org/" target="_blank" rel="external">https://www.openssl.org/</a><br>在 ubuntu 下，本身应该是已经装了 OpenSSL（也或许什么时候装别的东西时依赖安装的？），如果仅仅是使用 OpenSSL 进行平时的加解密，是够了终端输入命令是可以运行的：<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">~$ openssl</div><div class="line">OpenSSL&gt;</div></pre></td></tr></table></figure></p>
+<p>但如果要想使用 OpenSSL 自己写些什么东西，则需要安转 OpenSSL 库函数，当然安装起来也很简单：<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo apt-get install libssl-dev</div></pre></td></tr></table></figure></p>
+<p>也可以选择下载源代码手动编译：<a href="https://github.com/openssl/openssl" target="_blank" rel="external">https://github.com/openssl/openssl</a></p>
+<p>这样保证你可以调用 OpenSSL 库中的函数。</p>
+<p>现在，你就可以随手使用 OpenSSL 提供的各种加密方式了，什么 MD5，RC4，RSA 都不在话下了。</p>
+<p>而且，现在我们的所有操作都可以有两种途径来实现，命令行 OR 代码。</p>
+<p>作为实验，我们以 RSA 为例，简单使用一下 OpenSSL，先用命令行来生成密钥，再用代码来实现对一个字符串的加解密。</p>
+<h2 id="生成密钥"><a href="#生成密钥" class="headerlink" title="生成密钥"></a>生成密钥</h2><p>RSA 作为非对称加密算法，密钥分为 公钥 和 私钥，它们是成对儿的。公钥公布出去，别人想给你发加密消息时，公钥用来加密，加密内容发给你；私钥自己留着，当收到别人发你的加密消息时，就可以用自己的私钥用来解密。不得不说，公钥密码体制这个想法太秒了。</p>
+<h3 id="生成一对密钥"><a href="#生成一对密钥" class="headerlink" title="生成一对密钥"></a>生成一对密钥</h3><figure class="highlight cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl genrsa -out key.pem <span class="number">1024</span></div></pre></td></tr></table></figure>
+<h3 id="提取公钥"><a href="#提取公钥" class="headerlink" title="提取公钥"></a>提取公钥</h3><p>两种格式？</p>
+<ul>
+<li>1.The PEM public key format uses the header and footer lines:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-----BEGIN PUBLIC KEY-----</div><div class="line">-----END PUBLIC KEY-----</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>提取方法:<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl rsa -<span class="keyword">in</span> key.pem -pubout -out pubkey.pem</div></pre></td></tr></table></figure></p>
+<ul>
+<li>2.The PEM RSAPublicKey format uses the header and footer lines:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">-----BEGIN RSA PUBLIC KEY-----</div><div class="line">-----END RSA PUBLIC KEY-----</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>提取方法:<br><figure class="highlight cmd"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">openssl rsa -<span class="keyword">in</span> key.pem -RSAPublicKey_out -out pubkey.pem</div></pre></td></tr></table></figure></p>
+<p>具体为什么有两种格式呢,可以参看这里:<br><a href="https://tls.mbed.org/kb/cryptography/asn1-key-structures-in-der-and-pem" target="_blank" rel="external">https://tls.mbed.org/kb/cryptography/asn1-key-structures-in-der-and-pem</a></p>
+<h2 id="加解密"><a href="#加解密" class="headerlink" title="加解密"></a>加解密</h2><p>公私钥都准备好了,就可以来加解密了。<br>我们用代码的方式来实现对一个字符串的加密,具体函数可以参看<br>官方文档：<br><a href="https://www.openssl.org/docs/manmaster/man3/" target="_blank" rel="external">https://www.openssl.org/docs/manmaster/man3/</a></p>
+<p>好,上代码:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fstream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"string.h"</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;openssl/rsa.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;openssl/pem.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;openssl/err.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="comment">//准备好的公私钥</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PUBLIC_KEY <span class="meta-string">"pubkey.key"</span> </span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> PRIVATE_KEY <span class="meta-string">"prikey.pem"</span></span></div><div class="line"></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">char</span>* <span class="title">my_encrypt</span><span class="params">(<span class="keyword">char</span> *str, <span class="keyword">char</span> *path_key)</span></span>;</div><div class="line"><span class="function"><span class="keyword">char</span>* <span class="title">my_decrypt</span><span class="params">(<span class="keyword">char</span> *str, <span class="keyword">char</span> *path_key)</span></span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</div><div class="line">	<span class="comment">// 声明一个字符数组,用来接受输入的字符串</span></div><div class="line">	<span class="keyword">char</span> message[<span class="number">128</span>];</div><div class="line"></div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"input message: "</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line">	<span class="built_in">cin</span>.getline(message, <span class="number">128</span>);</div><div class="line"></div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"your message: "</span> &lt;&lt; message &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line">	<span class="keyword">char</span> *ptr_en, *ptr_de;</div><div class="line">	<span class="comment">// 加密</span></div><div class="line">	ptr_en = my_encrypt(message, PUBLIC_KEY);</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"============ encrypt: ============"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; ptr_en &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="comment">// 解密</span></div><div class="line">	ptr_de = my_decrypt(ptr_en, PRIVATE_KEY);</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"============ decrypt: ============"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; ptr_de &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">char</span> * <span class="title">my_encrypt</span><span class="params">(<span class="keyword">char</span> *str, <span class="keyword">char</span> *path_key)</span> </span>&#123;</div><div class="line">	<span class="keyword">char</span> *p_en;</div><div class="line">	RSA *p_rsa;</div><div class="line">	FILE *file;</div><div class="line">	<span class="keyword">int</span> flen, rsa_len;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> ((file = fopen(path_key, <span class="string">"r"</span>)) == <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"open public key file error."</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="comment">// if ((p_rsa = PEM_read_RSA_PUBKEY(file, NULL, NULL, NULL)) == NULL)</span></div><div class="line">	<span class="keyword">if</span>((p_rsa=PEM_read_RSAPublicKey(file,<span class="literal">NULL</span>,<span class="literal">NULL</span>,<span class="literal">NULL</span>))==<span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"read public key error."</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">return</span> <span class="string">"NULL"</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	flen = <span class="built_in">strlen</span>(str);</div><div class="line">	rsa_len = RSA_size(p_rsa);</div><div class="line">	p_en = (<span class="keyword">char</span> *) <span class="built_in">malloc</span> (rsa_len + <span class="number">1</span>);</div><div class="line">	<span class="built_in">memset</span>(p_en, <span class="number">0</span>, rsa_len + <span class="number">1</span>);</div><div class="line">	<span class="keyword">if</span> (RSA_public_encrypt(rsa_len - <span class="number">11</span>, (<span class="keyword">unsigned</span> <span class="keyword">char</span> *) str, (<span class="keyword">unsigned</span> <span class="keyword">char</span> *) p_en, p_rsa, RSA_PKCS1_PADDING) &lt;<span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"encrypt error."</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	RSA_free(p_rsa);</div><div class="line">	fclose(file);</div><div class="line">	<span class="keyword">return</span> p_en;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">char</span> *<span class="title">my_decrypt</span><span class="params">(<span class="keyword">char</span> *str, <span class="keyword">char</span> *path_key)</span> </span>&#123;</div><div class="line">	<span class="keyword">char</span> *p_de;</div><div class="line">	RSA *p_rsa;</div><div class="line">	FILE *file;</div><div class="line">	<span class="keyword">int</span> rsa_len;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> ((file = fopen(path_key, <span class="string">"r"</span>)) == <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"open private key file error."</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">if</span> ((p_rsa = PEM_read_RSAPrivateKey(file, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>)) == <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"read private key error."</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	rsa_len = RSA_size(p_rsa);</div><div class="line">	p_de = (<span class="keyword">char</span> *) <span class="built_in">malloc</span> (rsa_len + <span class="number">1</span>);</div><div class="line">	<span class="built_in">memset</span>(p_de, <span class="number">0</span>, rsa_len + <span class="number">1</span>);</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (RSA_private_decrypt(rsa_len, (<span class="keyword">unsigned</span> <span class="keyword">char</span> *) str, (<span class="keyword">unsigned</span> <span class="keyword">char</span> *) p_de, p_rsa, RSA_NO_PADDING) &lt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"decrypt error."</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	RSA_free(p_rsa);</div><div class="line">	fclose(file);</div><div class="line">	<span class="keyword">return</span> p_de;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+        </div>
+
+        <blockquote class="post-copyright">
+    <div class="content">
+        
+<span class="post-time">
+    最后更新时间：<time datetime="2017-04-07T08:41:11.945Z" itemprop="dateUpdated">2017年4月7日 16:41</time>
+</span><br>
+
+
+        转载请注明：<a href="foolself.github.io" target="_blank" rel="external">https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/</a>
+    </div>
+    <footer>
+        <a href="https://foolself.github.io">
+            <img src="/img/avatar.jpg" alt="foolself">
+            foolself
+        </a>
+    </footer>
+</blockquote>
+
+        
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;" class="page-reward-btn waves-effect waves-circle waves-light">赏</a>
+</div>
+
+
+
+        <div class="post-footer">
+            
+	<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/C/">C++</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RSA/">RSA</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/openssl/">openssl</a></li></ul>
+
+
+            
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/&title=《OpenSSL-RSA-实验》 — foolself blog&pic=https://foolself.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/&title=《OpenSSL-RSA-实验》 — foolself blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《OpenSSL-RSA-实验》 — foolself blog&url=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/&via=https://foolself.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+
+        </div>
+    </div>
+
+    
+<nav class="post-nav flex-row flex-justify-between flex-row-reverse">
+  
+
+  
+    <div class="waves-block waves-effect next">
+      <a href="/2015/12/13/P5-js-用它来写-html-动画吧/" id="post-next" class="post-nav-link">
+        <div class="tips">Next <i class="icon icon-angle-right icon-lg icon-pl"></i></div>
+        <h4 class="title">P5-js-用它来写-html-动画吧</h4>
+      </a>
+    </div>
+  
+</nav>
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+</article>
+
+<div id="reward" class="page-modal reward-lay">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <h3 class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        Thank you for you support~
+        <i class="icon icon-quote-right"></i>
+    </h3>
+    <ul class="reward-items">
+        
+        <li>
+            <img src="/img/wechat.jpg" title="微信打赏二维码" alt="微信打赏二维码">
+            <p>微信</p>
+        </li>
+        
+
+        
+        <li>
+            <img src="/img/alipay.jpg" title="支付宝打赏二维码" alt="支付宝打赏二维码">
+            <p>支付宝</p>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+</div>
+
+        <footer class="footer">
+    <div class="top">
+        
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        站点总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        站点总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+        <p>
+            <span><a href="/atom.xml" target="_blank" class="rss" title="rss"><i class="icon icon-lg icon-rss"></i></a></span>
+            <span>博客内容遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享 署名 - 非商业性 - 相同方式共享 4.0协议</a></span>
+        </p>
+    </div>
+    <div class="bottom">
+        <p>
+            <span>Power by <a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a href="https://github.com/yscoder/hexo-theme-indigo" target="_blank">indigo</a></span>
+            <span>foolself blog &copy; 2015 - 2017</span>
+        </p>
+    </div>
+</footer>
+
+    </main>
+    <div class="mask" id="mask"></div>
+<a href="javascript:;" id="gotop" class="waves-effect waves-circle waves-light"><span class="icon icon-lg icon-chevron-up"></span></a>
+
+
+
+<div class="global-share" id="globalShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/&title=《OpenSSL-RSA-实验》 — foolself blog&pic=https://foolself.github.io/img/avatar.jpg" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/&title=《OpenSSL-RSA-实验》 — foolself blog&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《OpenSSL-RSA-实验》 — foolself blog&url=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/&via=https://foolself.github.io" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+<div class="page-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=https://foolself.github.io/2017/04/01/OpenSSL-RSA-实验/" alt="微信分享二维码">
+</div>
+
+
+
+
+    <script src="//cdn.bootcss.com/node-waves/0.7.4/waves.min.js"></script>
+<script>
+var BLOG = { ROOT: '/', SHARE: true, REWARD: true };
+
+
+
+</script>
+
+<script src="/js/main.min.js?v=1.4.14"></script>
+
+
+<div class="search-panel" id="search-panel">
+    <ul class="search-result" id="search-result"></ul>
+</div>
+<template id="search-tpl">
+<li class="item">
+    <a href="{path}" class="waves-block waves-effect">
+        <div class="title ellipsis" title="{title}">{title}</div>
+        <div class="flex-row flex-middle">
+            <div class="tags ellipsis">
+                {tags}
+            </div>
+            <time class="flex-col time">{date}</time>
+        </div>
+    </a>
+</li>
+</template>
+
+<script src="/js/search.min.js?v=1.4.14" async></script>
+
+
+
+
+
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script>
+(function() {
+    var OriginTitile = document.title, titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '努力加载呢ㄟ(≧◇≦)ㄏ';
+            clearTimeout(titleTime);
+        } else {
+            document.title = '(つェ⊂)咦!又好了!';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            },2000);
+        }
+    });
+})();
+</script>
+
+
+
+</body>
+</html>
